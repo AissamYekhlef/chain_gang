@@ -1,0 +1,21 @@
+mysql -u root -p
+
+mysql> CREATE database chain_gang;
+
+mysql> GRANT ALL PRIVILEGES ON chain_gang.* TO 'webuser'@'localhost'IDENTFIED BY 'secretpass';
+
+mysql> exit
+
+mysql -u webuser -p
+
+mysql> show databases;
+
+mysql> use chain_gang;
+
+mysql> SHOW TABLES;
+
+mysql> SHOW FIELDS FROM TABLES;
+
+mysql> SELECT * FROM TABLES;
+
+mysql> exit;
