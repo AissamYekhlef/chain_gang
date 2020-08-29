@@ -10,6 +10,8 @@
   define("PROJECT_PATH", dirname(PRIVATE_PATH));
   define("PUBLIC_PATH", PROJECT_PATH . '/public');
   define("SHARED_PATH", PRIVATE_PATH . '/shared');
+  define("FUNCTIONS_PATH", PRIVATE_PATH . '/functions' . '/');
+  define("DATABASE_PATH", PRIVATE_PATH . '/database' . '/');
 
   // Assign the root URL to a PHP constant
   // * Do not need to include the domain
@@ -21,12 +23,12 @@
   $public_end = strpos($_SERVER['SCRIPT_NAME'], '/public') + 7;
   $doc_root = substr($_SERVER['SCRIPT_NAME'], 0, $public_end);
   define("WWW_ROOT", $doc_root);
-
-  require_once('functions.php');
-  require_once('status_error_functions.php');
-  require_once('db_credentials.php');
-  require_once('database_functions.php');
-  require_once('validation_functions.php');
+  
+  require_once( DATABASE_PATH . 'db_credentials.php');
+  require_once(FUNCTIONS_PATH . 'functions.php');
+  require_once(FUNCTIONS_PATH . 'status_error_functions.php');
+  require_once(FUNCTIONS_PATH . 'database_functions.php');
+  require_once(FUNCTIONS_PATH . 'validation_functions.php');
   
   // Load class definitions manually
 
@@ -52,5 +54,7 @@
     
   
     $database = db_connect();
-    Bicycle::set_database($database);
+    DatabaseObject::set_database($database);
+
+    $session = new Session;
 ?>

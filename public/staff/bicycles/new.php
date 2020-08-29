@@ -2,6 +2,8 @@
 
 require_once('../../../private/initialize.php');
 
+require_login(); 
+
 if(is_post_request()) {
 
   // // Create record using post parameters
@@ -27,7 +29,7 @@ if(is_post_request()) {
   
   if($result === true) {
     $new_id = $bicycle->id;
-    $_SESSION['message'] = 'The bicycle was created successfully.';
+    $session->message('The bicycle was created successfully.');
     redirect_to(url_for('/staff/bicycles/show.php?id=' . $new_id));
   } else {
     // show errors
@@ -35,12 +37,12 @@ if(is_post_request()) {
 
 } else {
   // display the form
-  $bicycle = new Bicycle;
+  $bicycle = new bicycle;
 }
 
 ?>
 
-<?php $page_title = 'Create Bicycle'; ?>
+<?php $page_title = 'Create bicycle'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -48,7 +50,7 @@ if(is_post_request()) {
   <a class="back-link" href="<?php echo url_for('/staff/bicycles/index.php'); ?>">&laquo; Back to List</a>
 
   <div class="bicycle new">
-    <h1>Create Bicycle</h1>
+    <h1>Create bicycle</h1>
 
     <?php echo display_errors($bicycle->errors); ?>
 

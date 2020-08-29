@@ -18,7 +18,11 @@
 
     <navigation>
       <ul>
+      <?php if($session->is_logged_in()) { ?>
+        <li>User : <a href="<?php echo url_for('/staff/admins/show.php?id='.$_SESSION['admin_id']); ?>"><?php echo $session->username; ?></a></li>
         <li><a href="<?php echo url_for('/staff/index.php'); ?>">Menu</a></li>
+        <li><a href="<?php echo url_for('/staff/logout.php'); ?>">Logout</a></li>
+      <?php } ?>  
       </ul>
     </navigation>
 

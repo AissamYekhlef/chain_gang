@@ -3,6 +3,21 @@
 <?php $page_title = 'Inventory'; ?>
 <?php include(SHARED_PATH . '/public_header.php'); ?>
 
+<?php
+
+// get the data by offset 
+$current_page =  $_GET['page'] ?? 1; //php > 7
+$per_page = 5;
+$total_count = Bicycle::count_all();
+$pagination = new Pagination($current_page, $per_page, $total_count);
+
+
+$sql = $pagination->pagination_offset($per_page, $pagination->offset(), Bicycle::table_name());
+
+$bicycles = Bicycle::find_by_sql($sql);
+  
+?>
+
 <div id="main">
 
   <div id="page">
@@ -15,6 +30,7 @@
 
     <table id="inventory">
       <tr>
+        <th>ID</th>
         <th>Brand</th>
         <th>Model</th>
         <th>Year</th>
@@ -26,22 +42,23 @@
       </tr>
 
 <?php 
-  // Case data from CSV file 
-  // $parser = new ParseCSV(PRIVATE_PATH . '/used_bicycles.csv');
-
+  // echo "Get data from CSV file";  
+  // $parser = new ParseCSV(DATABASE_PATH . 'used_bicycles.csv');
   // $bike_array = $parser->parse();
   // echo "<div style='text-align:center; margin:20px'> the Bicycles count : " ;
   // echo $parser->row_count() ;
   // echo  "</div>";
 
-  $bikes = Bicycle::find_all();
+  // echo "<br>Get all data from database"; 
+  // $bike_array = Bicycle::find_all();
 
 ?>
      
-    <?php foreach ($bikes as $bike){?>
+    <?php foreach ($bicycles as $bike){?>
     <?php 
-      // $bike = new Bicycle($args); ?>
+      //  $bike = new Bicycle($args); ?>
       <tr>
+        <td> <?php echo $bike->id ?> </td>
         <td> <?php echo $bike->brand ?> </td>
         <td> <?php echo $bike->model ?> </td>
         <td> <?php echo $bike->year ?> </td>
@@ -54,6 +71,12 @@
     <?php }?>
     
     </table>
+
+      <?php
+        $url = url_for("bicycles.php");
+        echo $pagination->page_links($url);
+      ?>
+
   </div>
 
 <?php

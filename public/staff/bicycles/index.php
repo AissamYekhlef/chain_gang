@@ -1,9 +1,19 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
+<?php require_login(); ?>
+
 <?php
-  
+$current_page =  $_GET['page'] ?? 1; //php > 7
+$per_page = 5;
+$total_count = Bicycle::count_all();
+$pagination = new Pagination($current_page, $per_page, $total_count);
+
 // Find all bicycles;
-$bicycles = Bicycle::find_all();
+// $bicycles = Bicycle::find_all();
+
+$sql = $pagination->pagination_offset($per_page, $pagination->offset(), Bicycle::table_name());
+
+$bicycles = Bicycle::find_by_sql($sql);
   
 ?>
 <?php $page_title = 'Bicycles'; ?>
@@ -49,8 +59,15 @@ $bicycles = Bicycle::find_all();
       <?php } ?>
   	</table>
 
+      <?php
+      
+      $url = url_for('staff/bicycles/index.php');
+      echo $pagination->page_links($url);
+      ?>
+
   </div>
 
 </div>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>
+
